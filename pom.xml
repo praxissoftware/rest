@@ -52,6 +52,11 @@ limitations under the License.
       <name>Jason Rose</name>
       <email>jasoncrose@gmail.com</email>
     </developer>
+    <developer>
+      <id>devon.tackett</id>
+      <name>Devon Tackett</name>
+      <email>devon.tackett@gmail.com</email>
+    </developer>
   </developers>
   
   <dependencyManagement>
