@@ -97,7 +97,7 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
     if( value == null ) {
       output = remove(key);
     } else {
-      output = put(key, value);
+      output = delegate.put(key, value);
     }
     return output;
   }
