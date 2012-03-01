@@ -60,7 +60,7 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   public boolean equals(final Object object) {
     return delegate.equals(object);
   }
-
+  
   @Override
   public Object get(final Object arg0) {
     return delegate.get(arg0);
@@ -115,6 +115,11 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   @Override
   public int size() {
     return delegate.size();
+  }
+
+  @Override
+  public String toString() {
+    return delegate.toString();
   }
 
   @Override
