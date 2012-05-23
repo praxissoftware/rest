@@ -64,7 +64,7 @@ limitations under the License.
       <dependency>
         <groupId>com.github.praxissoftware.poms</groupId>
         <artifactId>com.github.praxissoftware.poms.commons</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
