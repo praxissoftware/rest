@@ -34,6 +34,10 @@ limitations under the License.
       <groupId>com.googlecode.guava-osgi</groupId>
       <artifactId>guava-osgi</artifactId>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
   </dependencies>
   
   <build>
