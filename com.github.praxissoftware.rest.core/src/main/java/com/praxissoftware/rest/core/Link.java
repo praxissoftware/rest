@@ -117,25 +117,19 @@ public class Link extends AbstractImmutableMapEntity {
 
     private Map<String, Object> convertToMap() {
       final ImmutableMap.Builder<String, Object> mapBuilder = ImmutableMap.builder();
-      if( uri != null ) {
-        mapBuilder.put("href", uri);
-      }
-      if( rel != null ) {
-        mapBuilder.put("rel", rel);
-      }
-      if( type != null ) {
-        mapBuilder.put("type", type);
-      }
-      if( title != null ) {
-        mapBuilder.put("title", title);
-      }
-      if( hrefLang != null ) {
-        mapBuilder.put("hrefLang", hrefLang);
-      }
-      if( length != null ) {
-        mapBuilder.put("length", length);
-      }
+      testAndSet(mapBuilder, "href", uri);
+      testAndSet(mapBuilder, "rel", rel);
+      testAndSet(mapBuilder, "type", type);
+      testAndSet(mapBuilder, "title", title);
+      testAndSet(mapBuilder, "hrefLang", hrefLang);
+      testAndSet(mapBuilder, "length", length);
       return mapBuilder.build();
+    }
+
+    private void testAndSet(ImmutableMap.Builder<String, Object> builder, String key, Object value) {
+      if( builder != null && key != null && value != null ) {
+        builder.put(key, value);
+      }
     }
   }
 
