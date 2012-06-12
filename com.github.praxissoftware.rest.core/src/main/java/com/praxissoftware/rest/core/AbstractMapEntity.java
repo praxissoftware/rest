@@ -39,10 +39,10 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   }
 
   public AbstractMapEntity(final Map<String, Object> source) {
-    if( source instanceof SortedMap ) {
-      delegate = Maps.newTreeMap((SortedMap<String, Object>) source);
-    } else if( source instanceof ImmutableMap ) {
+    if( source instanceof ImmutableMap ) {
       delegate = source;
+    } else if( source instanceof SortedMap ) {
+      delegate = Maps.newTreeMap((SortedMap<String, Object>) source);
     } else {
       delegate = Maps.newHashMap(source);
     }

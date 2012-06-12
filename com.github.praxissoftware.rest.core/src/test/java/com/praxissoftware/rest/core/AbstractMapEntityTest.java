@@ -26,6 +26,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -40,7 +41,7 @@ public class AbstractMapEntityTest {
     map.clear();
     Assert.assertNotNull(a.get("test"));
   }
-  
+
   @Test
   public void testSortedMapConstructorPreservesSorting() {
     final A a = new A(Maps.<String, Object> newTreeMap());
@@ -51,18 +52,18 @@ public class AbstractMapEntityTest {
     Assert.assertEquals("a", keys.next());
     Assert.assertEquals("b", keys.next());
     Assert.assertEquals("c", keys.next());
-    
+
     final Iterator<? extends Object> vals = a.values().iterator();
     Assert.assertEquals("one", vals.next());
     Assert.assertEquals("three", vals.next());
     Assert.assertEquals("two", vals.next());
   }
-  
+
   @Test
   public void testSortedMapConstructorPreservesComparator() {
     final A a = new A(new TreeMap<String, Object>(new Comparator<String>() {
       @Override
-      public int compare(String o1, String o2) {
+      public int compare(final String o1, final String o2) {
         return o2.compareTo(o1);
       }
     }));
@@ -73,13 +74,34 @@ public class AbstractMapEntityTest {
     Assert.assertEquals("c", keys.next());
     Assert.assertEquals("b", keys.next());
     Assert.assertEquals("a", keys.next());
-    
+
     final Iterator<? extends Object> vals = a.values().iterator();
     Assert.assertEquals("two", vals.next());
     Assert.assertEquals("three", vals.next());
     Assert.assertEquals("one", vals.next());
   }
-  
+
+  @Test
+  public void testImmutableSortedMap() {
+    final A a = new A(ImmutableSortedMap.<String, Object> of("a", "one", "c", "two", "b", "three"));
+    final Iterator<String> keys = a.keySet().iterator();
+    Assert.assertEquals("a", keys.next());
+    Assert.assertEquals("b", keys.next());
+    Assert.assertEquals("c", keys.next());
+
+    final Iterator<? extends Object> vals = a.values().iterator();
+    Assert.assertEquals("one", vals.next());
+    Assert.assertEquals("three", vals.next());
+    Assert.assertEquals("two", vals.next());
+
+    try {
+      a.clear();
+      Assert.fail();
+    } catch( final UnsupportedOperationException uoe ) {
+      // pass
+    }
+  }
+
   @Test
   public void testClear() {
     final A a = new A();
@@ -88,7 +110,7 @@ public class AbstractMapEntityTest {
     a.clear();
     Assert.assertNull(a.get("one"));
   }
-  
+
   @Test
   public void testContainsKey() {
     final A a = new A();
@@ -96,7 +118,7 @@ public class AbstractMapEntityTest {
     Assert.assertTrue(a.containsKey("one"));
     Assert.assertFalse(a.containsKey("two"));
   }
-  
+
   @Test
   public void testContainsValue() {
     final A a = new A();
@@ -104,7 +126,7 @@ public class AbstractMapEntityTest {
     Assert.assertFalse(a.containsValue("one"));
     Assert.assertTrue(a.containsValue("two"));
   }
-  
+
   @Test
   public void testEntrySet() {
     final A a = new A();
@@ -115,7 +137,7 @@ public class AbstractMapEntityTest {
     Assert.assertEquals("one", entry.getKey());
     Assert.assertEquals("two", entry.getValue());
   }
-  
+
   @Test
   public void testEquals() {
     final A a = new A();
@@ -126,7 +148,7 @@ public class AbstractMapEntityTest {
     final Map<String, ? extends Object> immutable = ImmutableMap.of("one", "two");
     Assert.assertEquals(a, immutable);
   }
-  
+
   @Test
   public void testHashCode() {
     final A a = new A();
@@ -137,7 +159,7 @@ public class AbstractMapEntityTest {
     final Map<String, ? extends Object> immutable = ImmutableMap.of("one", "two");
     Assert.assertEquals(a.hashCode(), immutable.hashCode());
   }
-  
+
   @Test
   public void testIsEmpty() {
     final A a = new A();
@@ -147,7 +169,7 @@ public class AbstractMapEntityTest {
     a.clear();
     Assert.assertTrue(a.isEmpty());
   }
-  
+
   @Test
   public void testPut() {
     final A a = new A();
@@ -155,7 +177,7 @@ public class AbstractMapEntityTest {
     a.put("one", "two");
     Assert.assertTrue(a.containsKey("one"));
   }
-  
+
   @Test
   public void testPutRemovesNulls() {
     final A a = new A();
@@ -164,7 +186,7 @@ public class AbstractMapEntityTest {
     a.put("one", null);
     Assert.assertFalse(a.containsKey("one"));
   }
-  
+
   @Test
   public void testPutAll() {
     final A a = new A();
@@ -172,7 +194,7 @@ public class AbstractMapEntityTest {
     a.putAll(map);
     Assert.assertEquals(a, map);
   }
-  
+
   @Test
   public void testRemove() {
     final A a = new A();
@@ -181,7 +203,7 @@ public class AbstractMapEntityTest {
     a.remove("one");
     Assert.assertFalse(a.containsKey("one"));
   }
-  
+
   @Test
   public void testSize() {
     final A a = new A();
@@ -189,27 +211,27 @@ public class AbstractMapEntityTest {
     a.put("one", "two");
     Assert.assertEquals(1, a.size());
   }
-  
+
   @Test
   public void testToString() {
     final A a = new A();
     final Map<String, Object> map = Maps.newHashMap();
     Assert.assertEquals(map.toString(), a.toString());
   }
-  
+
   @Test
   public void testValues() {
     final A a = new A();
     a.put("one", "two");
     Assert.assertEquals("two", a.values().iterator().next());
   }
-  
+
   private static final class A extends AbstractMapEntity {
     public A() {
       super();
     }
-    
-    public A(Map<String, Object> map) {
+
+    public A(final Map<String, Object> map) {
       super(map);
     }
   }
