@@ -40,12 +40,21 @@ public class Link extends AbstractImmutableMapEntity {
    * 
    */
   public static class Builder {
+    private final Map<String, ? extends Object> map;
     private URI uri;
     private String rel;
     private String type;
     private String title;
     private String hrefLang;
     private String length;
+    
+    public Builder() {
+      this(ImmutableMap.<String, Object>of());
+    }
+    
+    public Builder(Map<String, ? extends Object> map) {
+      this.map = map;
+    }
 
     /**
      * Returns a newly-created instance of the Link.
@@ -117,6 +126,7 @@ public class Link extends AbstractImmutableMapEntity {
 
     private Map<String, Object> convertToMap() {
       final ImmutableMap.Builder<String, Object> mapBuilder = ImmutableMap.builder();
+      mapBuilder.putAll(map);
       testAndSet(mapBuilder, "href", uri);
       testAndSet(mapBuilder, "rel", rel);
       testAndSet(mapBuilder, "type", type);
