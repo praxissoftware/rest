@@ -126,7 +126,7 @@ public class Link extends AbstractImmutableMapEntity {
       return mapBuilder.build();
     }
 
-    private void testAndSet(ImmutableMap.Builder<String, Object> builder, String key, Object value) {
+    private void testAndSet(final ImmutableMap.Builder<String, Object> builder, final String key, final Object value) {
       if( builder != null && key != null && value != null ) {
         builder.put(key, value);
       }

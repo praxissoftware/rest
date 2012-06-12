@@ -18,7 +18,9 @@ package com.praxissoftware.rest.core;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
@@ -37,7 +39,13 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   }
 
   public AbstractMapEntity(final Map<String, Object> source) {
-    delegate = source;
+    if( source instanceof SortedMap ) {
+      delegate = Maps.newTreeMap((SortedMap<String, Object>) source);
+    } else if( source instanceof ImmutableMap ) {
+      delegate = source;
+    } else {
+      delegate = Maps.newHashMap(source);
+    }
   }
 
   @Override
@@ -56,7 +64,7 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   }
 
   @Override
-  public Set<java.util.Map.Entry<String, Object>> entrySet() {
+  public Set<Map.Entry<String, Object>> entrySet() {
     return delegate.entrySet();
   }
 
