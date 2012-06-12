@@ -196,6 +196,18 @@ public class AbstractMapEntityTest {
   }
 
   @Test
+  public void testPutAllRemovesNulls() {
+    final A a = new A();
+    final Map<String, Object> map = Maps.newHashMap();
+    map.put("one", "two");
+    map.put("three", null);
+    a.putAll(map);
+    Assert.assertTrue(a.containsKey("one"));
+    Assert.assertFalse(a.containsKey("two"));
+    Assert.assertFalse(map.equals(a));
+  }
+
+  @Test
   public void testRemove() {
     final A a = new A();
     a.put("one", "two");

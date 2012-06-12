@@ -116,7 +116,9 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
 
   @Override
   public void putAll(final Map<? extends String, ? extends Object> arg0) {
-    delegate.putAll(arg0);
+    for( final Map.Entry<? extends String, ? extends Object> entry : arg0.entrySet() ) {
+      put(entry.getKey(), entry.getValue());
+    }
   }
 
   @Override
