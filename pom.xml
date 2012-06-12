@@ -60,7 +60,7 @@ limitations under the License.
   </developers>
   
   <properties>
-    <praxis.version>1.3.0-SNAPSHOT</praxis.version>
+    <praxis.version>1.3.0</praxis.version>
   </properties>
   
   <dependencyManagement>
