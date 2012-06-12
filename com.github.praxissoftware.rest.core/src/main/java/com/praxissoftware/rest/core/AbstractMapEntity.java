@@ -18,7 +18,9 @@ package com.praxissoftware.rest.core;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 /**
@@ -33,7 +35,17 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   private final Map<String, Object> delegate;
 
   public AbstractMapEntity() {
-    delegate = Maps.newHashMap();
+    this(Maps.<String, Object> newHashMap());
+  }
+
+  public AbstractMapEntity(final Map<String, Object> source) {
+    if( source instanceof ImmutableMap ) {
+      delegate = source;
+    } else if( source instanceof SortedMap ) {
+      delegate = Maps.newTreeMap((SortedMap<String, Object>) source);
+    } else {
+      delegate = Maps.newHashMap(source);
+    }
   }
 
   @Override
@@ -52,7 +64,7 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   }
 
   @Override
-  public Set<java.util.Map.Entry<String, Object>> entrySet() {
+  public Set<Map.Entry<String, Object>> entrySet() {
     return delegate.entrySet();
   }
 
@@ -60,7 +72,7 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
   public boolean equals(final Object object) {
     return delegate.equals(object);
   }
-  
+
   @Override
   public Object get(final Object arg0) {
     return delegate.get(arg0);
@@ -104,7 +116,9 @@ public abstract class AbstractMapEntity implements Map<String, Object> {
 
   @Override
   public void putAll(final Map<? extends String, ? extends Object> arg0) {
-    delegate.putAll(arg0);
+    for( final Map.Entry<? extends String, ? extends Object> entry : arg0.entrySet() ) {
+      put(entry.getKey(), entry.getValue());
+    }
   }
 
   @Override
