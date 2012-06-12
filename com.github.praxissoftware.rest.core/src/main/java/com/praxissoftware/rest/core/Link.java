@@ -16,8 +16,11 @@
 package com.praxissoftware.rest.core;
 
 import java.net.URI;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Representation object for links. This object is based on the Atom representation for links. We use Links to convey hypermedia in our resource representations.
@@ -29,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jason Rose
  */
 @XmlRootElement
-public class Link extends AbstractMapEntity {
+public class Link extends AbstractImmutableMapEntity {
 
   /**
    * The builder follows the Builder recommendation of Effective Java #2.
@@ -49,7 +52,7 @@ public class Link extends AbstractMapEntity {
      * @return A newly-created instance of the Link.
      */
     public Link build() {
-      return new Link(this);
+      return new Link(convertToMap());
     }
 
     /**
@@ -94,7 +97,7 @@ public class Link extends AbstractMapEntity {
 
     /**
      * Sets a human-readable title of the target resource.
-     * @param title A human-readable title of the target resource. 
+     * @param title A human-readable title of the target resource.
      * @return The builder, for method chaining.
      */
     public Builder title(final String title) {
@@ -111,15 +114,33 @@ public class Link extends AbstractMapEntity {
       this.type = type;
       return this;
     }
+
+    private Map<String, Object> convertToMap() {
+      final ImmutableMap.Builder<String, Object> mapBuilder = ImmutableMap.builder();
+      if( uri != null ) {
+        mapBuilder.put("href", uri);
+      }
+      if( rel != null ) {
+        mapBuilder.put("rel", rel);
+      }
+      if( type != null ) {
+        mapBuilder.put("type", type);
+      }
+      if( title != null ) {
+        mapBuilder.put("title", title);
+      }
+      if( hrefLang != null ) {
+        mapBuilder.put("hrefLang", hrefLang);
+      }
+      if( length != null ) {
+        mapBuilder.put("length", length);
+      }
+      return mapBuilder.build();
+    }
   }
 
-  private Link(final Builder builder) {
-    put("href", builder.uri);
-    put("rel", builder.rel);
-    put("type", builder.type);
-    put("title", builder.title);
-    put("hrefLang", builder.hrefLang);
-    put("length", builder.length);
+  private Link(final Map<String, Object> params) {
+    super(params);
   }
 
   /**
@@ -168,53 +189,5 @@ public class Link extends AbstractMapEntity {
    */
   public String getType() {
     return getAndCoerce("type");
-  }
-
-  /**
-   * Sets the link's target URI.
-   * @param href The link's target URI.
-   */
-  public void setHref(final URI href) {
-    put("href", href);
-  }
-
-  /**
-   * Sets the link's target language.
-   * @param hrefLang The link's target language.
-   */
-  public void setHrefLang(final String hrefLang) {
-    put("hrefLang", hrefLang);
-  }
-
-  /**
-   * Sets the link's target's content length, in bytes.
-   * @param length The link's target's content length, in bytes.
-   */
-  public void setLength(final String length) {
-    put("length", length);
-  }
-
-  /**
-   * Sets the link's relationship.
-   * @param rel The link's relationship.
-   */
-  public void setRel(final String rel) {
-    put("rel", rel);
-  }
-
-  /**
-   * Sets the link's human-readable title.
-   * @param title The link's human-readable title.
-   */
-  public void setTitle(final String title) {
-    put("title", title);
-  }
-
-  /**
-   * Sets the link's target's content type.
-   * @param type The link's target's content type.
-   */
-  public void setType(final String type) {
-    put("type", type);
   }
 }
