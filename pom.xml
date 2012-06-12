@@ -25,7 +25,7 @@ limitations under the License.
 
   <groupId>com.github.praxissoftware.rest</groupId>
   <artifactId>com.github.praxissoftware.rest</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Praxis Software - REST</name>
@@ -64,6 +64,13 @@ limitations under the License.
       <dependency>
         <groupId>com.github.praxissoftware.poms</groupId>
         <artifactId>com.github.praxissoftware.poms.commons</artifactId>
+        <version>1.2.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.github.praxissoftware.poms</groupId>
+        <artifactId>com.github.praxissoftware.poms.testing</artifactId>
         <version>1.2.0</version>
         <type>pom</type>
         <scope>import</scope>
