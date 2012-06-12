@@ -22,6 +22,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableMap;
+
 public class LinkTest {
 
   @Test
@@ -69,6 +71,13 @@ public class LinkTest {
   public void testType() {
     final Link link = new Link.Builder().type("text/foo").build();
     Assert.assertEquals("text/foo", link.getType());
+  }
+  
+  @Test
+  public void testCreateSeedMap() {
+    final Link link = new Link.Builder(ImmutableMap.of("test", "one")).rel("two").build();
+    Assert.assertEquals("one", link.get("test"));
+    Assert.assertEquals("two", link.getRel());
   }
   
   @Test
